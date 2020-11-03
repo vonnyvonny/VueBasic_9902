@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGD8</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="d-flex justify-content-center">
+            <div class="card w-50 text-white bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header text-center" ><strong>Tebak Angka</strong> </div>
+                <div class="text-center">Tebak Angka 1-10 </div>
+                    <input type="number" class="form-control" v-model="tebakan" :disabled="isDisabled" placeholder="tebak angkanya 1-10"/>
+                    <br>
+                    <button class="btn btn-dark btn-sm" @click="tebak" :disabled="isDisabled">Tebak</button>
+                    <br>
+                    Kesempatan : {{ kesempatan }}
+                    <br>
+                    Cheat : {{angka}}
+                    
+            </div>
+        </div>
+        <div class="text-center" v-show="benar">
+            <p>SELAMAT, ANDA MENEBAK DENGAN BENAR!!! </p> 
+            <button class="btn btn-success" @click="mainlagi" >main lagi</button>
+        </div>
+        <div class="text-center" v-show="kalah">
+            <p>YAH KALAH :'( </p> 
+            <p>Angka Yang Benar : {{angka}}</p>
+            <button class="btn btn-danger" @click="mainlagi" >main lagi</button>
+        </div>
+        <div class="text-center" v-show="salah">
+            <p>SILAHKAN COBA LAGI!!! </p> 
+            <button class="btn btn-warning" @click="cobalagi" >Coba lagi</button>
+        </div>
+        
+        <footer class="text-center mt-5">
+            {{ `${mhs.nama} | ${mhs.npm} | ${mhs.kelas}` }}
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            angka: Math.floor(Math.random() * 10)+1,
+            tebakan:0,
+            kesempatan:3,
+            salah:undefined,
+            benar:undefined,
+            kalah:undefined,
+            isDisabled:false,
+            mhs: {
+                nama:'Vonny',
+                npm: '180709902',
+                kelas: 'C',
+            },
+        },
+        methods: {
+           tebak(){
+            if(this.tebakan == this.angka){
+                this.benar = 1;
+            }else {
+                    this.salah =1;
+                    this.isDisabled = true;
+                    this.kesempatan--;
+                    if(this.kesempatan==0){
+                        this.kalah=1;
+                        this.salah = undefined;
+                    }
+            }              
+           },
+           cobalagi(){
+                this.isDisabled = false;
+                this.salah = undefined;
+           },
+           mainlagi(){
+               location.reload();
+           }
+        },
+ 
+    });
+</script>
+</html>
